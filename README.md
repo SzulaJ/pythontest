@@ -3,20 +3,29 @@
 ## Basic knowledge questions
 
 - What is \_\_main\_\_.py used for?
+## It's used for a spcial constructions the name of the top-level environment of the program, which can be checked using the __name__ == '__main__' expression; and. the __main__.py file in Python packages. Thanks to this, it is not necessary to define the main function every time you write a program.   It removes the ambiguity among end-user about the entry point of the program as Python does it automatically and helps in clean execution of the code
 
 - How to prevent python module code from executing when the module is imported?
+##To prevent code in the module from being executed when imported, but only when run directly, you can guard it with this "if"
 
 - What's the name of method that represents a class constructor in Python?
+##  the __init__() method
 
 - What options do you have when you need to insert value of a variable into string? Name at least three.
+## the string format method, f-strings in Python >= 3.6, old school % formatting
 
 - How can you truly restrict access to a private method of a class in Python?
+## There is any truly secure method to make a private class in python, but the closest thing to do it is to put __ (double underscore) before name of class
 
 - What Python feature would you use to add some functionalities to an existing function without interfering into its code?
+## One way is to use inner function just by indenting it into existing function, in this way we aren't modyfying existing code, just adding a new one.
 
 - How is @staticmethod different from @classmethod?
-
+## The difference between the Class method and the static method is:
+A class method takes cls as the first parameter while a static method needs no specific parameters. A class method can access or modify the class state while a static method can’t access or modify it. In general, static methods know nothing about the class state. They are utility-type methods that take some parameters and work upon those parameters. On the other hand class methods must have class as a parameter. We use @classmethod decorator in python to create a class method and we use @staticmethod decorator to create a static method in python.
+    
 - What is the advantage of using **with** keyword when reading/writing a file in Python?
+## The 'with' statement helps with clearer syntax (for example, by using that statement we don't have to worry about writing file.close() at the end of code, it is done automaticly)
 
 ## Problem solving
 
