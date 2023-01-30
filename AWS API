@@ -1,0 +1,109 @@
+"""
+first we have to creat our new project in aws api, search for the AWS lambda (creating a index.handler) and create our functions in it : post and get
+
+POST must be connected with API Gateway (our destination) , and all of the demand Permissions policies in IAM must be developed (connection between lambda, function post and get - so it could transfer our datas)
+  [AWSLambdaBasicExecutionRole-5fe7f244-bf5c-4ff1-9ebd-a6ac86884bbd	and dynamo_access_policy]
+  
+API endpoint: https://24ixgoc46b.execute-api.eu-west-1.amazonaws.com/aaa/
+"""
+#lambda post
+
+import json    #JSON encoder and decoder (JavaScript Object Notation)
+import boto3   #AWS SDK for Python (Boto3) to create, configure, and manage AWS services
+import uuid   # to get a unique ID
+
+
+client = boto3.client('dynamodb')  #declare our unique client id 
+
+def handler(event, context):           #handler is the method in your function code that processes events
+    unique_id = str(uuid.uuid4())
+    name = event["name"]
+    age = event["age"]
+    #add some needed datas for our item with its type 
+    invoke = client.put_item(
+        TableName="users",
+        Item={
+            "user_id": {
+                "S": unique_id
+                },
+            "name": {
+                "S": name
+            },
+            "age": {
+                "N": age
+            }
+            }
+        )
+        #making it lookin good for our response
+    res_body = {
+        "id": unique_id,
+        "name": name,
+        "age": age
+    }
+    response = {
+        'body': json.dumps(res_body)
+    }
+    
+    return response['body']
+    
+    """
+    we have to save every new version and uppload it to lambda.
+    doing a test like :
+    {
+  "name": "Julia",
+  "age": "11"
+    }
+    
+    assure us that adding datas is positive. 
+    also is needed to add a role to our function - 
+    An IAM role is an identity you can create that has specific permissions 
+    with credentials that are valid for short durations. 
+    Roles can be assumed by entities that you trust
+    
+    Same way we create GET function so we can find some of added datas
+    """
+import json
+import boto3
+
+client = boto3.client('dynamodb')
+
+def handler(event, context):
+    
+    payload = client.get_item(
+        TableName='users',
+        Key={
+            'user_id': {
+                'S':event['pathParameters']['user_id']
+                }
+            }
+        )
+    if "Item" in payload:
+    # our items remimds me some sort of table, we search each data in 
+        name = payload["Item"]["name"]["S"]
+        age = payload["Item"]["age"]["N"]
+        # if status = 200 ==> function works fine
+        #body is what we see after recalling our api 
+        respose = {
+            'statusCode': 200,
+            'body': json.dumps({"name": name, "age": age})
+        }
+    
+    #in case of error 
+    else:
+        respose = {
+            'statusCode': 404,
+            'body': 'Data not found'
+        }
+            
+    return respose
+"""
+also connecting with API Gateway is needed
+
+now we creat DynamoDB table Item:  "users" with the Partition key : user_id (String)
+set some capacity units to consume
+Edit item
+we can add, remove, or edit the attributes of an item.
+
+by adding another users we can test it our page works right in a return 
+    
+    
