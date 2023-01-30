@@ -6,7 +6,7 @@
 ## It's used for a spcial constructions the name of the top-level environment of the program, which can be checked using the __name__ == '__main__' expression; and. the __main__.py file in Python packages. Thanks to this, it is not necessary to define the main function every time you write a program.   It removes the ambiguity among end-user about the entry point of the program as Python does it automatically and helps in clean execution of the code
 
 - How to prevent python module code from executing when the module is imported?
-##To prevent code in the module from being executed when imported, but only when run directly, you can guard it with this "if"
+## To prevent code in the module from being executed when imported, but only when run directly, you can guard it with this "if"
 
 - What's the name of method that represents a class constructor in Python?
 ##  the __init__() method
