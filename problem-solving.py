@@ -1,5 +1,8 @@
+#this assumption assures we do not have to use another function call
+__name__ = "main" 
 import threading
 import time
+
 
 people = [
     {"first_name": "John", "last_name": "Black", "age": 30},
@@ -14,29 +17,35 @@ class Person:
     def __init__(self, first_name, last_name, age):
         self.first_name = first_name
         self.last_name = last_name
-        self.age == age
+        self.age = age  
+#putting = insted of ==
         self.id = self.increase_count()
 
     # This method should not be modified.
     def introduce(self):
         time.sleep(1)
         print(f"Hello, my first name is {self.first_name} and I am {self.age} years old.")
-
-    def increase_count():
+#adding a self argument
+    def increase_count(self): 
         Person.people_count += 1
         return Person.people_count
+    
+    
 
 def main():
     threads = []
     for p in people:
-        x = Person(p["first_name"], p["age"], p["last_name"])
+        x = Person(p["first_name"], p["last_name"],  p["age"]) #modyfication of elements queue
         threads.append(threading.Thread(target=x.introduce))
         
     for thread in threads:
         thread.start()
-    
+        thread.join(0.001)
+    thread.join()
+#using join method to increase time of iteration
     print(f"Number of people created: {Person.people_count}")
     return
 
 if __name__ == "main":
     main()
+    
